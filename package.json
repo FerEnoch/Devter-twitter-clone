@@ -1,5 +1,5 @@
 {
-  "name": "clon",
+  "name": "clon-de-twitter",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,8 +11,12 @@
   "dependencies": {
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
+    "firebase": "9.22.0",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "standard": "17.0.0"
   }
 }
