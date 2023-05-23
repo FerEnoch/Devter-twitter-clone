@@ -8,6 +8,12 @@ const nextConfig = {
         hostname: 'avatars.githubusercontent.com',
         port: '',
         pathname: '/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'unavatar.io',
+        port: '',
+        pathname: '/**'
       }
     ]
   }

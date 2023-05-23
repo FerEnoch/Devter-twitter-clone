@@ -1,0 +1,128 @@
+[
+  {
+    "id": 123,
+    "username": "ferEnøch",
+    "name": "Fernando Gómez",
+    "avatar": "https://unavatar.io/github/ferEnoch?fallback=https://source.boringavatars.com/marble/120/1337_user?colors=264653r,2a9d8f,e9c46a,f4a261,e76f51",
+    "message": "Abro paraguas paaguas: Clean Code es un libro obsoleto que en 2020, con los paradigmas de desarrollo de software que manejamos, puede hacerte más daño que beneficio."
+  },
+  {
+    "id": 456,
+    "username": "shiffman",
+    "name": "Daniel Shiffman",
+    "avatar": "https://unavatar.io/github/shiffman?fallback=https://unavatar.io/deviantart/spye",
+    "message": "Just deployed my new web app! It feels great to see months of hard work come to life. #webdevelopment #coding"
+  },
+  {
+    "id": 789,
+    "username": "gaearon",
+    "name": "Dan Abramov",
+    "avatar": "https://unavatar.io/github/gaearon?fallback=https://unavatar.io/dribbble/omidnikra",
+    "message": "Started learning React.js today. Any tips for a beginner?"
+  },
+  {
+    "id": 753,
+    "username": "jwasham",
+    "name": "John Washam",
+    "avatar": "https://unavatar.io/github/jwasham",
+    "message": "Excited to attend the upcoming web development conference. Can't wait to learn new techniques and network with fellow developers!"
+  },
+  {
+    "id": 159,
+    "username": "octocat",
+    "name": "GitHub's official mascot",
+    "avatar": "https://unavatar.io/github/octocat?fallback=https://unavatar.io/duckduckgo/gummibee.dev",
+    "message": "Just published a new blog post on advanced CSS techniques. Check it out and let me know your thoughts!"
+  },
+  {
+    "id": 147,
+    "username": "JakeWharton",
+    "name": "Jake Wharton",
+    "avatar": "https://unavatar.io/github/JakeWharton?fallback=https://unavatar.io/github/md",
+    "message": "Working on a complex JavaScript project. Feeling challenged but determined to overcome any obstacles. #codinglife"
+  },
+  {
+    "id": 258,
+    "username": "donnemartin",
+    "name": "Donne Martin",
+    "avatar": "https://unavatar.io/github/donnemartin?fallback=https://unavatar.io/google/netfli.com",
+    "message": "Web design inspiration can be found everywhere! Taking a walk in nature always helps spark new creative ideas."
+  },
+  {
+    "id": 369,
+    "username": "hadley",
+    "name": "Hadley Wickham,",
+    "avatar": "https://unavatar.io/github/hadley?fallback=https://unavatar.io/gravata/indresorhusmail.com",
+    "message": "Started building a full-stack web application using Node.js, Express, and React. It's going to be an exciting journey!"
+  },
+  {
+    "id": 154,
+    "username": "addyosmani ",
+    "name": "Addy Osmani",
+    "avatar": "https://unavatar.io/github/addyosmani?fallback=https://unavatar.io/microlink/microlin.io",
+    "message": "User experience is key! Remember to put yourself in the user's shoes when designing your next web project."
+  },
+  {
+    "id": 365,
+    "username": "torvalds",
+    "name": "Linus Torvalds",
+    "avatar": "https://unavatar.io/github/torvalds",
+    "message": "Excited about the latest updates to the Linux kernel! Working together with an incredible community of contributors makes it all possible. #OpenSource #Linux"
+  },
+  {
+    "id": 999,
+    "username": "BillGates",
+    "name": "Bill Gates",
+    "avatar": "https://unavatar.io/github/BillGates",
+    "message": "Just had an inspiring conversation with some brilliant minds in the tech industry. The potential for technology to drive positive change in the world is limitless! #TechForGood"
+  },
+  {
+    "id": 888,
+    "username": "martinfowler",
+    "name": "Martin Fowler",
+    "avatar": "https://unavatar.io/github/martinfowler",
+    "message": "Continuously learning and exploring new concepts in software architecture. The world of software development is ever-evolving, and staying curious is the key to staying ahead. #SoftwareArchitecture #ContinuousLearning"
+  },
+  {
+    "id": 777,
+    "username": "brendaneich",
+    "name": "Brendan Eich",
+    "avatar": "https://unavatar.io/github/brendaneich",
+    "message": "JavaScript keeps evolving, and it's amazing to witness the advancements in the language. Looking forward to the future of web development and the possibilities it brings! #JavaScript #WebDevelopment"
+  },
+  {
+    "id": 5,
+    "username": "gvanrossum",
+    "name": "Guido van Rossum",
+    "avatar": "https://unavatar.io/github/gvanrossum",
+    "message": "Python has come a long way since its inception. It's incredible to see how the community has embraced the language and made it one of the most popular choices for developers worldwide. #Python #CommunityLove"
+  },
+  {
+    "id": 6,
+    "username": "KentBeck",
+    "name": "Kent Beck",
+    "avatar": "https://unavatar.io/github/KentBeck",
+    "message": "Test-driven development has been a game-changer for me. Writing tests first not only improves code quality but also boosts confidence in the software we build. #TDD #CodeQuality"
+  },
+  {
+    "id": 7,
+    "username": "jeffdean",
+    "name": "Jeff Dean",
+    "avatar": "https://unavatar.io/github/jeffdean",
+    "message": "Just wrapped up an exciting project using machine learning techniques to solve a complex problem. The power of AI continues to amaze me! #MachineLearning #AI"
+  },
+  {
+    "id": 8,
+    "username": "robpike",
+    "name": "Rob Pike",
+    "avatar": "https://unavatar.io/github/robpike",
+    "message": "Concurrency and parallelism are crucial in modern systems. Exploring new approaches to make software more efficient and scalable. #Concurrency #SoftwareEngineering"
+  },
+  {
+    "id": 9,
+    "username": "jeresig",
+    "name": "John Resig",
+    "avatar": "https://unavatar.io/github/jeresig",
+    "message": "JavaScript is everywhere! It's incredible to see the impact it has had on web development and beyond."
+  }
+]

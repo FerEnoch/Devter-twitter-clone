@@ -1,31 +1,38 @@
-import AppLayout from '@/components/AppLayout'
+import { loginWithGitHub } from '@/firebase/client'
+import { useEffect } from 'react'
+import AppLogo from '@/components/Icons/AppLogo'
 import Button from '@/components/Button'
 import GitHubLogo from '@/components/Icons/GitHub'
-import { authStateChange, loginWithGitHub } from '@/firebase/client'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from './styles'
-import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import useUser, { userStatus } from '@/components/hooks/useUser'
 
 export default function Home () {
-  const [user, setUser] = useState(undefined)
+  const user = useUser()
+  const router = useRouter()
+  console.table(
+    {
+      'userFromIndexPages //--> ': user,
+      'user //-->': user
+    }
+  )
+
+  useEffect(() => {
+    user && router.replace('/home')
+  }, [user, router])
 
   const handleClick = () => {
     loginWithGitHub()
-      .then(setUser)
-      .catch(error => {
-        console.table(
-          {
-            'Something went wrong': ':(',
-            'error.message //--> ': error.message,
-            'error.code //--> ': error.code
-          })
-      })
+      .catch(err => console.table(
+        {
+          'Somethin went wrong //-->': 'index-onClickButton->loginWithGitHub',
+          'err.message //-->': err.message
+        }
+      )
+      )
   }
-
-  useEffect(() => {
-    authStateChange(setUser)
-  }, [setUser])
 
   return (
     <>
@@ -36,44 +43,41 @@ export default function Home () {
         <link rel='icon' href='/logo.png' />
       </Head>
       <style jsx>{styles}</style>
-      <AppLayout>
-        <section>
-          <Image
-            width={70}
-            height={50}
-            src='/logo.png'
-            alt='logo'
-          />
-          <h1>Devter</h1>
-          <h2>Talk about development with developers</h2>
-          <div>
-            {
-             !user
-               ? (
-                 <Button onClick={handleClick}>
-                   <GitHubLogo
-                     width={24}
-                     height={24}
-                     fill='white'
-                   />
-                   Login with GitHub
-                 </Button>
-                 )
-               : (
-                 <div>
-                   <Image
-                     width={60}
-                     height={60}
-                     src={user.avatarURL}
-                     alt='User avatar'
-                   />
-                   <strong>{user.username}</strong>
-                 </div>
-                 )
-            }
-          </div>
-        </section>
-      </AppLayout>
+      <section>
+        <AppLogo
+          width={70}
+          height={50}
+        />
+        <h1>Devter</h1>
+        <h2>Talk about development with developers</h2>
+        <div>
+          {
+             user === userStatus.UNKNOWN && (
+               <Button onClick={handleClick}>
+                 <GitHubLogo
+                   width={24}
+                   height={24}
+                   fill='white'
+                 />
+                 Login with GitHub
+               </Button>
+             )
+          }
+          {
+              user &&
+              (
+                <div>
+                  <Image
+                    src='/spinner.gif'
+                    alt='Loading spinner'
+                    width={160}
+                    height={135}
+                  />
+                </div>
+              )
+          }
+        </div>
+      </section>
     </>
   )
 }

@@ -1,5 +1,6 @@
 // Estas claves son públicas - lo importante es poner en la console de firebase
 // el dominio desde el cual pueden utilizarse de manera exclusiva
+import { userStatus } from '@/components/hooks/useUser'
 import { initializeApp } from 'firebase/app'
 import {
   getAuth,
@@ -23,7 +24,7 @@ const auth = getAuth(app)
 const provider = new GithubAuthProvider()
 
 const normalizedUser = user => {
-  const { displayName: username, photoURL: avatarURL, email } = user.user ?? user
+  const { displayName: username, photoURL: avatarURL, email } = user
   return {
     username,
     avatarURL,
@@ -44,10 +45,12 @@ export const loginWithGitHub = async () => {
     })
 }
 
-export const authStateChange = onChange => onAuthStateChanged(auth, user => {
+export const authStateChange = ({ setUser: onChange, setStatus }) => onAuthStateChanged(auth, user => {
   if (!user) {
-    return console.log('user is logged out')
+    setStatus(userStatus.LOGGED_OUT)
+    return console.log('user has logged out')
   }
   console.log('user is logged in')
+  setStatus(userStatus.LOGGED_IN)
   onChange(normalizedUser(user))
 })
