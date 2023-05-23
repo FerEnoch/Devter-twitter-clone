@@ -18,6 +18,7 @@ export default function useUser () {
   }, [])
 
   useEffect(() => {
+    if (router.pathname === '/') return
     status === userStatus.LOGGED_OUT && router.push('/')
   }, [router, status])
 
