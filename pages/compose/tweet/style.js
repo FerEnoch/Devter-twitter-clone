@@ -11,7 +11,8 @@ export default css`
     width: 100%;
   }
 
-  div {
+  div { 
     padding: 15px;
   }
+  
 `

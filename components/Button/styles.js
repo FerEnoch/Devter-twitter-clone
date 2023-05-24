@@ -13,6 +13,7 @@ export default css`
     font-size: 16px;
     font-weight: 600;
     padding: 4px 24px;
+    user-select: none;
     transition: opacity .3s ease;
   }
 
@@ -22,6 +23,11 @@ export default css`
 
   button:hover {
     opacity: .7;
+  }
+
+  button[disabled] {
+    pointer-events: none;
+    opacity: 0.2;
   }
 
 `

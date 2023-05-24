@@ -3,6 +3,14 @@
 import { userStatus } from '@/components/hooks/useUser'
 import { initializeApp } from 'firebase/app'
 import {
+  getFirestore,
+  collection,
+  addDoc,
+  Timestamp,
+  getDocs
+} from 'firebase/firestore'
+
+import {
   getAuth,
   signInWithPopup,
   GithubAuthProvider,
@@ -19,16 +27,25 @@ const firebaseConfig = {
   measurementId: 'G-26TE6KYX4S'
 }
 
+const DATABASES = {
+  DEVITS: 'devits'
+}
+
 const app = initializeApp(firebaseConfig)
+
+const database = getFirestore(app)
+const collectionRef = collection(database, DATABASES.DEVITS)
+
 const auth = getAuth(app)
 const provider = new GithubAuthProvider()
 
 const normalizedUser = user => {
-  const { displayName: username, photoURL: avatarURL, email } = user
+  const { displayName: username, photoURL: avatarURL, email, uid } = user
   return {
     username,
     avatarURL,
-    email
+    email,
+    uid
   }
 }
 
@@ -54,3 +71,39 @@ export const authStateChange = ({ setUser: onChange, setStatus }) => onAuthState
   setStatus(userStatus.LOGGED_IN)
   onChange(normalizedUser(user))
 })
+
+export const addDevit = async ({ avatar, content, userId, userName }) => {
+  return await addDoc(collectionRef, {
+    avatar,
+    content,
+    userId,
+    userName,
+    createdAt: Timestamp.fromDate(new Date()),
+    likesCunt: 0,
+    shareCount: 0
+  })
+}
+
+export const fetchLatestDevits = async () => {
+  console.log('fetching! //--> ')
+
+  return getDocs(collectionRef)
+    .then(({ docs }) => {
+      // docSnapshot.forEach((doc) => {
+      //   console.log(doc.id, ' => ', doc.data())
+      // })
+      return docs.map(doc => {
+        const data = doc.data()
+        const id = doc.id
+        const { createdAt } = data
+        const date = new Date(createdAt.seconds * 1000)
+        const normalizeCreatedAt = new Intl.DateTimeFormat('es-AR').format(date)
+
+        return {
+          ...data,
+          id,
+          createdAt: normalizeCreatedAt
+        }
+      })
+    })
+}

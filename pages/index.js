@@ -12,12 +12,6 @@ import useUser, { userStatus } from '@/components/hooks/useUser'
 export default function Home () {
   const user = useUser()
   const router = useRouter()
-  console.table(
-    {
-      'userFromIndexPages //--> ': user,
-      'user //-->': user
-    }
-  )
 
   useEffect(() => {
     user && router.replace('/home')

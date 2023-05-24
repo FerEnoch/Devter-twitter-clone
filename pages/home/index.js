@@ -2,24 +2,21 @@ import style from './styles'
 import { useState, useEffect } from 'react'
 import Devit from '@/components/Devit'
 import useUser from '@/components/hooks/useUser'
+import { fetchLatestDevits } from '@/firebase/client'
 
 export default function HomePage () {
   const [timeline, setTimeline] = useState(null)
   const user = useUser()
-  console.table(
-    {
-      'userFromHome //--> ': user,
-      'user //-->': user
-    }
-  )
 
   useEffect(() => {
-    user &&
-      fetch('http://localhost:3000/api/statuses/home_timeline')
-        .then(res => res.json())
-        .then(setTimeline)
-        .catch(err => console.log('err //--> ', err)
-        )
+    // user &&
+    //   fetch('http://localhost:3000/api/statuses/home_timeline')
+    //     .then(res => res.json())
+    //     .then(setTimeline)
+    //     .catch(err => console.log('err //--> ', err)
+    // )
+    user && fetchLatestDevits()
+      .then(setTimeline)
   }, [user])
 
   return (
@@ -31,19 +28,29 @@ export default function HomePage () {
       <section>
         {
           timeline &&
-            timeline.map(({ name, avatar, username, message, id }) => {
+            timeline.map(({
+              id,
+              name,
+              createdAt,
+              avatar,
+              userName,
+              content,
+              userId
+            }) => {
               return (
                 <Devit
                   key={id}
                   width={49}
                   height={49}
                   src={avatar}
-                  alt={name}
-                  title={username}
-                  username={username}
-                  message={message}
+                  alt={userName}
+                  title={userName}
+                  userName={userName}
+                  content={content}
                   avatar={avatar}
                   name={name}
+                  userId={userId}
+                  createdAt={createdAt}
                 />
               )
             })

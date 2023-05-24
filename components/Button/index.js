@@ -1,10 +1,13 @@
 import styles from './styles'
 
-export default function Button ({ children, onClick }) {
+export default function Button ({ disabled, children, onClick }) {
   return (
     <>
       <style jsx>{styles}</style>
-      <button onClick={onClick}>
+      <button
+        disabled={disabled}
+        onClick={onClick}
+      >
         {children}
       </button>
     </>

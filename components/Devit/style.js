@@ -15,4 +15,9 @@ export default css`
     margin: 0;
     line-height: 1.35em;
   }
+
+  time {
+    color: #555;
+    font-size: 14px;
+  }
 `

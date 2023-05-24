@@ -1,7 +1,7 @@
 import Avatar from '@/components/Avatar'
 import style from './style'
 
-export default function Devit ({ name, avatar, username, message, id }) {
+export default function Devit ({ createdAt, name, avatar, userName, content, id }) {
   return (
     <>
       <style jsx>{style}</style>
@@ -9,15 +9,19 @@ export default function Devit ({ name, avatar, username, message, id }) {
         <div>
           <Avatar
             src={avatar}
-            alt={name}
-            title={username}
+            alt={userName}
+            title={userName}
             width={49}
             height={49}
           />
         </div>
         <section>
-          <strong>{username}</strong>
-          <p>{message}</p>
+          <header>
+            <strong>{userName}</strong>
+            <span> . </span>
+            <time dateTime={createdAt}>{createdAt}</time>
+          </header>
+          <p>{content}</p>
         </section>
       </article>
     </>
