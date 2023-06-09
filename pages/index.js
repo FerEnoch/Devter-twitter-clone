@@ -7,7 +7,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from './styles'
 import { useRouter } from 'next/router'
-import useUser, { userStatus } from '@/components/hooks/useUser'
+import useUser, { USER_STATUS } from '@/components/hooks/useUser'
 
 export default function Home () {
   const user = useUser()
@@ -32,9 +32,6 @@ export default function Home () {
     <>
       <Head>
         <title>Devter</title>
-        <meta name='description' content='Clon de Twitter por FerEnøch_dev!' />
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link rel='icon' href='/logo.png' />
       </Head>
       <style jsx>{styles}</style>
       <section>
@@ -46,7 +43,7 @@ export default function Home () {
         <h2>Talk about development with developers</h2>
         <div>
           {
-             user === userStatus.UNKNOWN && (
+             user === USER_STATUS.UNKNOWN && (
                <Button onClick={handleClick}>
                  <GitHubLogo
                    width={24}

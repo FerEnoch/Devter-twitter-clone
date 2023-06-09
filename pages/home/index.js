@@ -1,32 +1,36 @@
-import style from './styles'
 import { useState, useEffect } from 'react'
 import Devit from '@/components/Devit'
 import useUser from '@/components/hooks/useUser'
-import { fetchLatestDevits } from '@/firebase/client'
+import { listenLatestDevits } from '@/firebase/client'
+import Head from 'next/head'
+import NavLayout from '@/components/NavigationLayout/NavLayout'
+// import Header from '@/components/Header/Header'
+// import Navbar from '@/components/Navbar/Navbar'
 
 export default function HomePage () {
   const [timeline, setTimeline] = useState(null)
   const user = useUser()
 
   useEffect(() => {
-    // user &&
-    //   fetch('http://localhost:3000/api/statuses/home_timeline')
-    //     .then(res => res.json())
-    //     .then(setTimeline)
-    //     .catch(err => console.log('err //--> ', err)
-    // )
-    user && fetchLatestDevits()
-      .then(setTimeline)
+    const unsubscribe = user && listenLatestDevits(setTimeline)
+    return () => unsubscribe && unsubscribe()
   }, [user])
 
   return (
     <>
-      <style jsx>{style}</style>
-      <header>
-        <h2>Inicio</h2>
-      </header>
-      <section>
-        {
+      <Head>
+        <title>Inicio / Devit</title>
+      </Head>
+      <style jsx>{`
+    section {
+      flex: 1
+      padding-right: 18px;
+    }
+      `}
+      </style>
+      <NavLayout title='Inicio'>
+        <section>
+          {
           timeline &&
             timeline.map(({
               id,
@@ -35,6 +39,7 @@ export default function HomePage () {
               avatar,
               userName,
               content,
+              img,
               userId
             }) => {
               return (
@@ -50,15 +55,15 @@ export default function HomePage () {
                   avatar={avatar}
                   name={name}
                   userId={userId}
+                  id={id}
                   createdAt={createdAt}
+                  img={img}
                 />
               )
             })
           }
-      </section>
-      <nav>
-        my nav
-      </nav>
+        </section>
+      </NavLayout>
     </>
   )
 }

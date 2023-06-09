@@ -1,35 +1,8 @@
 import css from 'styled-jsx/css'
-import { breakpoints, colors, fonts } from '../../styles/theme'
+import { colors, fonts } from '../../styles/theme'
 import { addOpacityToColor } from '@/styles/utils'
 
 const backgroundColor = addOpacityToColor(colors.primary, 0.5)
-const mainBoxShadow = addOpacityToColor('#000000', 0.15)
-
-export default css`
-    div {
-       display: grid;
-       height: 100vh;
-       place-items: center;
-    }
-
-    main {
-       background: #fff;
-       border-radius: 10px;
-       box-shadow: 0 10px 25px ${mainBoxShadow};
-       height: 90vh;
-       overflow-y: auto;
-       overflow-x: hidden;
-       width: 100%;
-       position: relative;
-     }
-   
-    @media (min-width: ${breakpoints.mobile}) {
-     main {
-       height: 90vh;
-       width: ${breakpoints.mobile}
-     }
-    }
-`
 
 export const globalStyles = css.global`
     * {
@@ -51,5 +24,13 @@ export const globalStyles = css.global`
 
     textarea, input {
       font-family: ${fonts.base};
+    }
+`
+
+export default css`
+    div {
+       display: grid;
+       height: 100vh;
+       place-items: center;
     }
 `

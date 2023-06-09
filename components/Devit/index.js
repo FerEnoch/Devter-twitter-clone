@@ -1,11 +1,28 @@
 import Avatar from '@/components/Avatar'
+import Image from 'next/image'
+import useTimeAgo from '@/components/hooks/useTimeAgo'
+import useDateTimeFormat from '@/components/hooks/useDateTimeFormat'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
 import style from './style'
 
-export default function Devit ({ createdAt, name, avatar, userName, content, id }) {
+export default function Devit ({
+  createdAt, name, avatar, userName, img, content, id
+}) {
+  const timestamp = useTimeAgo(createdAt)
+  const createdAtFormated = useDateTimeFormat(createdAt)
+  const router = useRouter()
+
+  const articleClickHandler = (e) => {
+    e.preventDefault()
+    router.push(`status/${id}`)
+  }
+
   return (
     <>
       <style jsx>{style}</style>
-      <article>
+      <article onClick={articleClickHandler}>
         <div>
           <Avatar
             src={avatar}
@@ -19,9 +36,22 @@ export default function Devit ({ createdAt, name, avatar, userName, content, id 
           <header>
             <strong>{userName}</strong>
             <span> . </span>
-            <time dateTime={createdAt}>{createdAt}</time>
+            <Link href={`/status/${id}`}>
+              <time title={createdAtFormated}>
+                {timestamp}
+              </time>
+            </Link>
           </header>
           <p>{content}</p>
+          {
+          img &&
+            <Image
+              alt={`Image of the tweet by ${userName}`}
+              width={200}
+              height={100}
+              src={img}
+            />
+          }
         </section>
       </article>
     </>

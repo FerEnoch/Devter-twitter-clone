@@ -5,9 +5,7 @@ export default function AppLayout ({ children }) {
   return (
     <>
       <div>
-        <main>
-          {children}
-        </main>
+        {children}
       </div>
       <style jsx>{styles}</style>
       <style jsx global>{globalStyles}</style>

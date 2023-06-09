@@ -7,8 +7,13 @@ export default css`
     padding: 10px 15px;
   }
 
+  article:hover {
+    background: #f5f8fa;
+    cursor: pointer;
+  }
+
   div {
-    margin-right: 10px;
+    padding-right: 10px;
   }
 
   p {
@@ -19,5 +24,20 @@ export default css`
   time {
     color: #555;
     font-size: 14px;
+  }
+
+  section > :global(img) {
+    border-radius: 10px;
+    height: auto;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  header > :global(a) {
+    text-decoration: none;
+  }
+
+  header > :global(a):hover {
+    text-decoration: underline;
   }
 `

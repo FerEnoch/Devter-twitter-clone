@@ -19,12 +19,4 @@ export default css`
      padding: 15px;
     }
 
-    nav {
-      background: #fff;
-      bottom: 0;
-      border-top: 1px solid #eee;
-      position: sticky;
-      height: 49px;
-      width: 100%;
-    }
 `

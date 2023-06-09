@@ -1,13 +1,17 @@
 // Estas claves son públicas - lo importante es poner en la console de firebase
 // el dominio desde el cual pueden utilizarse de manera exclusiva
-import { userStatus } from '@/components/hooks/useUser'
+import { USER_STATUS } from '@/components/hooks/useUser'
 import { initializeApp } from 'firebase/app'
 import {
   getFirestore,
   collection,
   addDoc,
   Timestamp,
-  getDocs
+  // getDocs,
+  orderBy,
+  query,
+  onSnapshot,
+  limit
 } from 'firebase/firestore'
 
 import {
@@ -17,29 +21,30 @@ import {
   onAuthStateChanged
 } from 'firebase/auth'
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyDFhr9chpxggEXKmlef_uL1cgJh5yPCdes',
-  authDomain: 'devter-59aff.firebaseapp.com',
-  projectId: 'devter-59aff',
-  storageBucket: 'devter-59aff.appspot.com',
-  messagingSenderId: '1022675825504',
-  appId: '1:1022675825504:web:b13e72c75c5bdc3057e405',
-  measurementId: 'G-26TE6KYX4S'
-}
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable
+} from 'firebase/storage'
 
-const DATABASES = {
+const firebaseConfig = JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG)
+
+export const DATABASES = {
   DEVITS: 'devits'
 }
 
-const app = initializeApp(firebaseConfig)
+export const clientApp = initializeApp(firebaseConfig)
 
-const database = getFirestore(app)
-const collectionRef = collection(database, DATABASES.DEVITS)
+const databaseClient = getFirestore(clientApp)
 
-const auth = getAuth(app)
+const devitsCollectionRef = collection(databaseClient, DATABASES.DEVITS)
+
+const auth = getAuth(clientApp)
 const provider = new GithubAuthProvider()
 
-const normalizedUser = user => {
+const storage = getStorage(clientApp)
+
+const mapUserFromFirebaseToUser = user => {
   const { displayName: username, photoURL: avatarURL, email, uid } = user
   return {
     username,
@@ -51,7 +56,7 @@ const normalizedUser = user => {
 
 export const loginWithGitHub = async () => {
   return signInWithPopup(auth, provider)
-    .then(normalizedUser)
+    .then(mapUserFromFirebaseToUser)
     .catch(error => {
       console.table(
         {
@@ -64,46 +69,59 @@ export const loginWithGitHub = async () => {
 
 export const authStateChange = ({ setUser: onChange, setStatus }) => onAuthStateChanged(auth, user => {
   if (!user) {
-    setStatus(userStatus.LOGGED_OUT)
+    setStatus(USER_STATUS.LOGGED_OUT)
     return console.log('user has logged out')
   }
   console.log('user is logged in')
-  setStatus(userStatus.LOGGED_IN)
-  onChange(normalizedUser(user))
+  setStatus(USER_STATUS.LOGGED_IN)
+  onChange(mapUserFromFirebaseToUser(user))
 })
 
-export const addDevit = async ({ avatar, content, userId, userName }) => {
-  return await addDoc(collectionRef, {
+export const addDevit = async ({ avatar, content, userId, userName, img }) => {
+  return await addDoc(devitsCollectionRef, {
     avatar,
     content,
     userId,
     userName,
+    img,
     createdAt: Timestamp.fromDate(new Date()),
     likesCunt: 0,
     shareCount: 0
   })
 }
 
-export const fetchLatestDevits = async () => {
-  console.log('fetching! //--> ')
+const mapDevitsFromFirebaseToDevitsObject = doc => {
+  const data = doc.data()
+  const id = doc.id
+  const { createdAt } = data
+  return {
+    ...data,
+    id,
+    createdAt: +createdAt.toDate()
+  }
+}
 
-  return getDocs(collectionRef)
-    .then(({ docs }) => {
-      // docSnapshot.forEach((doc) => {
-      //   console.log(doc.id, ' => ', doc.data())
-      // })
-      return docs.map(doc => {
-        const data = doc.data()
-        const id = doc.id
-        const { createdAt } = data
-        const date = new Date(createdAt.seconds * 1000)
-        const normalizeCreatedAt = new Intl.DateTimeFormat('es-AR').format(date)
+export const listenLatestDevits = handleUpdatedDevits => {
+  const q = query(devitsCollectionRef, orderBy('createdAt', 'desc'), limit(20))
+  return onSnapshot(q, ({ docs }) => {
+    const updatedDevits = docs.map(mapDevitsFromFirebaseToDevitsObject)
+    handleUpdatedDevits(updatedDevits)
+  })
+}
 
-        return {
-          ...data,
-          id,
-          createdAt: normalizeCreatedAt
-        }
-      })
-    })
+// export const fetchLatestDevits = async () => {
+//   const q = query(devitsCollectionRef, orderBy('createdAt', 'desc'))
+//   return getDocs(q)
+//     .then(({ docs }) => {
+//       // docSnapshot.forEach((doc) => {
+//       //   console.log(doc.id, ' => ', doc.data())
+//       // })
+//       return docs
+//         .map(mapDevitsFromFirebaseToDevitsObject)
+//     })
+// }
+
+export const uploadImage = (file) => {
+  const imagesRef = ref(storage, `/images/${file.name}`)
+  return uploadBytesResumable(imagesRef, file)
 }
