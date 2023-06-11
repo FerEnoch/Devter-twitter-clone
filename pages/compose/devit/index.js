@@ -1,6 +1,6 @@
 import Button from '@/components/Button'
-import style from './style'
-import { useEffect, useState } from 'react'
+import style from '@/styles/compose/devit/devit_styles'
+import { useEffect, useRef, useState } from 'react'
 import useUser from '@/components/hooks/useUser'
 import { addDevit, uploadImage } from '@/firebase/client'
 import { useRouter } from 'next/router'
@@ -8,10 +8,11 @@ import Head from 'next/head'
 import { getDownloadURL } from 'firebase/storage'
 import Image from 'next/image'
 import Avatar from '@/components/Avatar'
-import NavLayout from '@/components/NavigationLayout/NavLayout'
+import NavLayout from '@/components/NavigationLayout'
+import Picture from '@/components/Icons/Picture'
 
 const COMPOSE_STATES = {
-  USER_NOT_KNOWN: 0,
+  UNKNOWN_USER: 0,
   LOADING: 1,
   SUCCESS: 2,
   ERROR: -1
@@ -28,19 +29,21 @@ const DRAG_IMAGE_STATES = {
 export default function ComposeTweet () {
   const user = useUser()
   const [message, setMessage] = useState('')
-  const [status, setStatus] = useState(COMPOSE_STATES.USER_NOT_KNOWN)
+  const [status, setStatus] = useState(COMPOSE_STATES.UNKNOWN_USER)
   const router = useRouter()
   const [drag, setDrag] = useState(DRAG_IMAGE_STATES.NONE)
   const [task, setTask] = useState(null)
   const [imageURL, setImageURL] = useState(null)
+  const uploadPictureRef = useRef()
+  const [completeImgLoading, setCompleteImgLoading] = useState(null)
 
   useEffect(() => {
     if (task) {
       const onChange = () => {}
       const onError = () => {}
       const onCompleted = () => {
-        console.log('completed upload!')
         getDownloadURL(task.snapshot.ref).then(setImageURL)
+        setDrag(DRAG_IMAGE_STATES.COMPLETE)
       }
       task.on('state_changed', onChange, onError, onCompleted)
     }
@@ -89,11 +92,20 @@ export default function ComposeTweet () {
 
   const handleDrop = (e) => {
     e.preventDefault()
-    setDrag(DRAG_IMAGE_STATES.NONE)
+    setDrag(DRAG_IMAGE_STATES.UPLOADING)
     const file = e.dataTransfer.files[0]
     const uploadTask = uploadImage(file)
     setTask(uploadTask)
   }
+
+  const handleUploadImageButton = (e) => {
+    setDrag(DRAG_IMAGE_STATES.UPLOADING)
+    const pictureFile = uploadPictureRef.current.files[0]
+    const uploadTask = uploadImage(pictureFile)
+    setTask(uploadTask)
+  }
+
+  const imgBackgroundFill = completeImgLoading ? 'complete' : 'loading'
 
   return (
     <>
@@ -114,7 +126,7 @@ export default function ComposeTweet () {
            height={49}
          />
        </figure>
-      }
+          }
           <form onSubmit={handleSubmit}>
             <textarea
               placeholder='Qué está pasando...?'
@@ -124,25 +136,62 @@ export default function ComposeTweet () {
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
               className={
-            `${drag === DRAG_IMAGE_STATES.DRAG_OVER
-            ? 'dashed'
-            : ''}`
-          }
+                  `${drag === DRAG_IMAGE_STATES.DRAG_OVER
+                  ? 'dashed'
+                  : ''}`
+                  }
             />
             {
-        imageURL &&
-          <section className='remove-img'>
-            <Button onClick={() => setImageURL(null)}>
-              X
-            </Button>
-            <Image
-              height={300}
-              width={500}
-              alt='Devit image'
-              src={imageURL}
-            />
-          </section>
-         }
+            drag !== DRAG_IMAGE_STATES.UPLOADING && !imageURL &&
+              (
+                <div className='upload_picture'>
+                  <label htmlFor='upload_picture'>
+                    <Picture />
+                  </label>
+                  <input
+                    type='file'
+                    name='devit_picture'
+                    id='upload_picture'
+                    accept='image/*,.pdf'
+                    ref={uploadPictureRef}
+                    onChange={handleUploadImageButton}
+                  />
+                </div>
+              )
+            }
+            {
+            drag === DRAG_IMAGE_STATES.UPLOADING &&
+             (
+               <div>
+                 <Image
+                   src='/spinner.gif'
+                   alt='Loading spinner'
+                   width={160}
+                   height={135}
+                 />
+               </div>
+             )
+            }
+            {
+            imageURL &&
+              <section className='remove-img'>
+                <Button onClick={() => {
+                  setDrag(DRAG_IMAGE_STATES.NONE)
+                  setImageURL(null)
+                }}
+                >
+                  X
+                </Button>
+                <Image
+                  height={300}
+                  width={500}
+                  alt='Devit image'
+                  src={imageURL}
+                  onLoadingComplete={() => { setCompleteImgLoading(true) }}
+                  className={imgBackgroundFill}
+                />
+              </section>
+            }
             <div>
               <Button disabled={isButtonDisabled}>Send it!</Button>
             </div>
