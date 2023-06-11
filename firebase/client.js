@@ -70,9 +70,8 @@ export const loginWithGitHub = async () => {
 export const authStateChange = ({ setUser: onChange, setStatus }) => onAuthStateChanged(auth, user => {
   if (!user) {
     setStatus(USER_STATUS.LOGGED_OUT)
-    return console.log('user has logged out')
+    return
   }
-  console.log('user is logged in')
   setStatus(USER_STATUS.LOGGED_IN)
   onChange(mapUserFromFirebaseToUser(user))
 })
@@ -102,24 +101,12 @@ const mapDevitsFromFirebaseToDevitsObject = doc => {
 }
 
 export const listenLatestDevits = handleUpdatedDevits => {
-  const q = query(devitsCollectionRef, orderBy('createdAt', 'desc'), limit(20))
+  const q = query(devitsCollectionRef, orderBy('createdAt', 'desc'))
   return onSnapshot(q, ({ docs }) => {
     const updatedDevits = docs.map(mapDevitsFromFirebaseToDevitsObject)
     handleUpdatedDevits(updatedDevits)
   })
 }
-
-// export const fetchLatestDevits = async () => {
-//   const q = query(devitsCollectionRef, orderBy('createdAt', 'desc'))
-//   return getDocs(q)
-//     .then(({ docs }) => {
-//       // docSnapshot.forEach((doc) => {
-//       //   console.log(doc.id, ' => ', doc.data())
-//       // })
-//       return docs
-//         .map(mapDevitsFromFirebaseToDevitsObject)
-//     })
-// }
 
 export const uploadImage = (file) => {
   const imagesRef = ref(storage, `/images/${file.name}`)

@@ -5,7 +5,8 @@ import useDateTimeFormat from '@/components/hooks/useDateTimeFormat'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import style from './style'
+import style from '@/styles/components/Devit_styles'
+import { useState } from 'react'
 
 export default function Devit ({
   createdAt, name, avatar, userName, img, content, id
@@ -13,11 +14,14 @@ export default function Devit ({
   const timestamp = useTimeAgo(createdAt)
   const createdAtFormated = useDateTimeFormat(createdAt)
   const router = useRouter()
+  const [completeImgLoading, setCompleteImgLoading] = useState(null)
 
   const articleClickHandler = (e) => {
     e.preventDefault()
     router.push(`status/${id}`)
   }
+
+  const imgBackgroundFill = completeImgLoading ? 'completed' : 'loading'
 
   return (
     <>
@@ -50,6 +54,8 @@ export default function Devit ({
               width={200}
               height={100}
               src={img}
+              onLoadingComplete={() => { setCompleteImgLoading(true) }}
+              className={imgBackgroundFill}
             />
           }
         </section>

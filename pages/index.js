@@ -5,7 +5,7 @@ import Button from '@/components/Button'
 import GitHubLogo from '@/components/Icons/GitHub'
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from './styles'
+import styles from '@/styles/index_styles'
 import { useRouter } from 'next/router'
 import useUser, { USER_STATUS } from '@/components/hooks/useUser'
 

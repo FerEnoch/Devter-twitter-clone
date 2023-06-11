@@ -1,5 +1,5 @@
 import css from 'styled-jsx/css'
-import { colors, fonts } from '../../styles/theme'
+import { colors, fonts, breakpoints } from '@/styles/theme'
 import { addOpacityToColor } from '@/styles/utils'
 
 const backgroundColor = addOpacityToColor(colors.primary, 0.5)
@@ -32,5 +32,13 @@ export default css`
        display: grid;
        height: 100vh;
        place-items: center;
+    }
+
+     
+    @media (min-width: ${breakpoints.mobile}) {
+      div :global(main) {
+       height: 90vh;
+       width: ${breakpoints.mobile}
+     }
     }
 `

@@ -1,5 +1,7 @@
 import Devit from '@/components/Devit'
-import NavLayout from '@/components/NavigationLayout/NavLayout'
+import NavLayout from '@/components/NavigationLayout'
+import { databaseAdmin } from '@/firebase/admin'
+import { DATABASES } from '@/firebase/client'
 
 export default function DevitPage (props) {
   return (
@@ -23,21 +25,20 @@ export default function DevitPage (props) {
   )
 }
 
-export async function getServerSideProps (context) {
-  // params, req, res, query
-  const { params, res } = context
+export async function getServerSideProps ({ params }) {
   const { id } = params
-  const apiResponse = await fetch(`http://localhost:3000/api/devits/${id}`)
+  const snapshot = await databaseAdmin.collection(DATABASES.DEVITS).get()
 
-  if (!apiResponse.ok || !res) {
-    return {
-      redirect: {
-        destination: '/home',
-        permanent: false
-      }
+  const selectedDevit = snapshot.docs.filter(doc => doc.id === id)[0]
+
+  const data = await selectedDevit.data()
+  const { createdAt } = data
+
+  return {
+    props: {
+      ...data,
+      id,
+      createdAt: +createdAt.toDate()
     }
   }
-
-  const props = await apiResponse.json()
-  return { props }
 }

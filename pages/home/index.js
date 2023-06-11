@@ -3,9 +3,7 @@ import Devit from '@/components/Devit'
 import useUser from '@/components/hooks/useUser'
 import { listenLatestDevits } from '@/firebase/client'
 import Head from 'next/head'
-import NavLayout from '@/components/NavigationLayout/NavLayout'
-// import Header from '@/components/Header/Header'
-// import Navbar from '@/components/Navbar/Navbar'
+import NavLayout from '@/components/NavigationLayout'
 
 export default function HomePage () {
   const [timeline, setTimeline] = useState(null)
@@ -22,10 +20,10 @@ export default function HomePage () {
         <title>Inicio / Devit</title>
       </Head>
       <style jsx>{`
-    section {
-      flex: 1
-      padding-right: 18px;
-    }
+           section {
+             flex: 1;
+             padding-right: 18px;
+           }
       `}
       </style>
       <NavLayout title='Inicio'>

@@ -32,7 +32,11 @@ export default css`
     margin-top: 10px;
     width: 100%;
   }
-  
+
+  section > :global(img).loading {
+    background: center / contain no-repeat url('/spinner.gif');
+  }
+
   header > :global(a) {
     text-decoration: none;
   }

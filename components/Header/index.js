@@ -1,4 +1,4 @@
-import style from './style'
+import style from '@/styles/components/Header_styles'
 
 export default function Header ({ title }) {
   return (

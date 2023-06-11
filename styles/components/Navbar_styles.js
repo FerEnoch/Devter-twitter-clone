@@ -12,6 +12,7 @@ nav {
   position: sticky;
   min-height: 49px;
   width: 100%;
+  z-index: 10;
 }
 
 nav > a {

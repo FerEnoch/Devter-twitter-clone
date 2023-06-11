@@ -105,7 +105,7 @@ export default function ComposeTweet () {
     setTask(uploadTask)
   }
 
-  const imgBackgroundFill = completeImgLoading ? 'complete' : 'loading'
+  const imgBackgroundFill = completeImgLoading ? 'completed' : 'loading'
 
   return (
     <>
@@ -162,7 +162,7 @@ export default function ComposeTweet () {
             {
             drag === DRAG_IMAGE_STATES.UPLOADING &&
              (
-               <div>
+               <div className='loading-spinner'>
                  <Image
                    src='/spinner.gif'
                    alt='Loading spinner'

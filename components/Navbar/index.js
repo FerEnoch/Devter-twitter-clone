@@ -1,7 +1,7 @@
 import Create from '@/components/Icons/Create'
 import Link from 'next/link'
 import Home from '@/components/Icons/Home'
-import style from './style'
+import style from '@/styles/components/Navbar_styles'
 
 export default function Navbar () {
   return (
