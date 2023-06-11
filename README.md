@@ -8,4 +8,4 @@ Dejo el repo de su increíble [curso de Next.js](https://github.com/midudev/curs
 
 ## Tecnologías
 
-Next.js (pages router) | Firebase | style jsx
+Next.js (pages router) | Firebase | styled jsx
