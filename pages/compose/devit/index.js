@@ -92,6 +92,7 @@ export default function ComposeTweet () {
 
   const handleDrop = (e) => {
     e.preventDefault()
+    setImageURL(null)
     setDrag(DRAG_IMAGE_STATES.UPLOADING)
     const file = e.dataTransfer.files[0]
     const uploadTask = uploadImage(file)
@@ -99,6 +100,7 @@ export default function ComposeTweet () {
   }
 
   const handleUploadImageButton = (e) => {
+    setImageURL(null)
     setDrag(DRAG_IMAGE_STATES.UPLOADING)
     const pictureFile = uploadPictureRef.current.files[0]
     const uploadTask = uploadImage(pictureFile)
