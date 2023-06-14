@@ -18,7 +18,7 @@ export default function Devit ({
 
   const articleClickHandler = (e) => {
     e.preventDefault()
-    router.push(`status/${id}`)
+    if (!router.pathname.includes('status')) router.push(`status/${id}`)
   }
 
   const imgBackgroundFill = completeImgLoading ? 'completed' : 'loading'
